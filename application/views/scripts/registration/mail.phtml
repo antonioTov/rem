@@ -1,0 +1,4 @@
+<h1>Ваши данные для авторизации</h1>
+<p>Логин:  <?php echo $this->email ?> </p>
+<p>Пароль:  <?php echo $this->pass ?> </p>
+<a href='<?php echo $this->serverUrl . "/registration/validation/code/" . $this->code ?>'>Подвердить адрес электронной почты</a>

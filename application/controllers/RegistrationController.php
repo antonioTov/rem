@@ -10,7 +10,7 @@ class RegistrationController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
+
     }
 
 
@@ -33,10 +33,13 @@ class RegistrationController extends Zend_Controller_Action
 				// генерируем временный пароль
 				$pass = Rem_PassGenerator::generate();
 
-				$mess =	"Ваши данные для авторизации \r\n>" .
-								"Логин: " . $email . "\r\n>" .
-								"Пароль: " . $pass . "\r\n" .
-								"<a href='" . $this->view->serverUrl() . "/registration/validation/code/" . $this->_generateCode( $email ) ."'>Подвердить адрес электронной почты</a>";
+				$this->view->email			= $email;
+				$this->view->pass 			= $pass;
+				$this->view->code			= $this->_generateCode( $email );
+				$this->view->serverUrl 	= $this->view->serverUrl();
+
+				$output = $this->view->render('registration/mail.phtml');
+
 
 				//отправка сообщения
 				$mail = new Rem_Mail('windows-1251');
@@ -46,7 +49,7 @@ class RegistrationController extends Zend_Controller_Action
 				$mail->setSubject(
 					'Пароль для входа'
 				);
-				$mail->setBodyHtml( $mess );
+				$mail->setBodyHtml( $output );
 				$mail->send();
 
 				$usersModel = new Application_Model_DbTable_Users();
@@ -77,13 +80,24 @@ class RegistrationController extends Zend_Controller_Action
 
 	public function validationAction()
 	{
-		$code = $this->_getParam('code', 0);
+		echo $code = $this->_getParam('code', 0);
+
 	}
+
+
+
+	public function mailAction()
+	{
+
+	}
+
+
 
 	private function _generateCode( $email )
 	{
 		return md5( $email );
 	}
+
 
 
 }
