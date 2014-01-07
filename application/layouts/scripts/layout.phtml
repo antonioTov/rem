@@ -41,12 +41,13 @@ echo $this->doctype(); ?>
 			<div class="jqueryslidemenu">
 				<ul>
 					<li><a href="/">Игроки</a></li>
-					<li><a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick')) ?>">Регистрация</a></li>
+					<li><a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick'), 'default' ) ?>">Регистрация</a></li>
+					<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
 				</ul>
 			</div>
 			<div class="jqueryslidemenu" style="float: right;">
 				<ul>
-					<li><span class="auth-name"><?php if (Zend_Auth::getInstance()->getIdentity()) echo Zend_Auth::getInstance()->getIdentity()->login?></span></li>
+					<li><span class="auth-name"><?php if (Zend_Auth::getInstance()->getIdentity()) echo Zend_Auth::getInstance()->getIdentity()->email?></span></li>
 					<li><a href="/auth/logout">Выход</a></li>
 				</ul>
 			</div>

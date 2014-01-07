@@ -33,7 +33,7 @@ class Application_Form_QuickReg extends Zend_Form
 						'emailAddressInvalidFormat' => $errorEmail
 					)
 				)),
-	/*			array('Db_NoRecordExists', true,
+				array('Db_NoRecordExists', true,
 					array(
 						'table' 	=> 'users',
 						'field' 	=> 'email',
@@ -41,7 +41,6 @@ class Application_Form_QuickReg extends Zend_Form
 							'recordFound' => $errorBusy
 						)
 					))
-	*/
 			));
 
 

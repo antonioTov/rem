@@ -20,7 +20,6 @@ class RegistrationController extends Zend_Controller_Action
 	 */
 	public function quickAction()
 	{
-
 		$form = new Application_Form_QuickReg();
 
 		if ( $this->getRequest()->isPost() )
@@ -38,18 +37,17 @@ class RegistrationController extends Zend_Controller_Action
 				$this->view->code			= $this->_generateCode( $email );
 				$this->view->serverUrl 	= $this->view->serverUrl();
 
-				$output = $this->view->render('registration/mail.phtml');
-
+				$body = $this->view->render('registration/mail.phtml');
 
 				//отправка сообщения
-				$mail = new Rem_Mail('windows-1251');
+				$mail = new Zend_Mail('windows-1251');
 				$mail->setHeaderEncoding(Zend_Mime::ENCODING_BASE64);
 				$mail->addTo( $email, 'Test');
 				$mail->setFrom('studio@peptolab.com', 'Test');
 				$mail->setSubject(
 					'Пароль для входа'
 				);
-				$mail->setBodyHtml( $output );
+				$mail->setBodyHtml( $body );
 				$mail->send();
 
 				$usersModel = new Application_Model_DbTable_Users();
@@ -76,6 +74,7 @@ class RegistrationController extends Zend_Controller_Action
 
 
 	}
+
 
 
 	public function validationAction()

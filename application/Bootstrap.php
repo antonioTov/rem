@@ -24,6 +24,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}
 
 
+	/**
+	 * Инициализация роутера для профиля пользователя
+	 */
+	public function _initRouters()
+	{
+		$route = new Zend_Controller_Router_Route(
+			'profile/:id/:action',
+			array(
+				'controller' => 'profile',
+				'action'     	=> 'index',
+				'id'         	=> 0
+			)
+			//array('id' => '\d+') // Makes sure :id is an int
+		);
+
+		$router = Zend_Controller_Front::getInstance()->getRouter();
+		$router->addRoute('profile', $route);
+
+	}
+
 	 /**
 	 * Инициализация плагина авторизации
 	 */

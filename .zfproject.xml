@@ -18,6 +18,9 @@
         <controllerFile controllerName="Registration">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Profile">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Album"/>
@@ -90,6 +93,9 @@
             <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Registration">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Profile">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

@@ -1,0 +1,1 @@
+Zend_Auth|a:1:{s:7:"storage";O:8:"stdClass":8:{s:2:"id";s:2:"18";s:5:"login";N;s:4:"pass";s:32:"cf30973c653e417a0b60cfe9c2f9ddc5";s:5:"email";s:12:"john@ukr.net";s:8:"reg_date";s:19:"2013-12-30 20:36:29";s:10:"last_visit";s:19:"0000-00-00 00:00:00";s:6:"active";s:1:"0";s:6:"status";s:5:"admin";}}
