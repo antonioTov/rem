@@ -1,4 +1,31 @@
-$(document).ready(function(){
+$(document).ready(function() {
+
+
+    $("#cities").select2({
+        placeholder: "choose city",
+        minimumInputLength: 1,
+        ajax: {
+            url: '/profile/cities/format/json',
+            dataType: "json",
+            data: function (term) {
+                return { q: term }
+            },
+            results: function (data) {
+                return { results: data}
+            }
+        },
+        formatResult: function(exercise) { alert('sds');
+            return "<div class='select2-user-result'>" + exercise.term + "</div>";
+        },
+        formatSelection: function(exercise) { alert('sds');
+            return exercise.term;
+        },
+        initSelection : function (element, callback) { alert('sds');
+            var elementText = $(element).attr('data-init-text');
+            callback({"term":elementText});
+        }
+
+    });
 
 
     $( "#datepicker" ).datepicker({

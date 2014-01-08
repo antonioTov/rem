@@ -14,7 +14,7 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 	 */
 	public function getPlayer( $id )
 	{
-		$id = (int)$id;
+		$id = (int) $id;
 		$row = $this->fetchRow('id = ' . $id);
 		if (!$row) {
 			throw new Exception("Could not find row $id");

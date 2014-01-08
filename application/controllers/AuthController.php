@@ -37,7 +37,9 @@ class AuthController extends Zend_Controller_Action
 					$storage_data->status = 'admin';
 					$storage->write($storage_data);
 
-					$this->_redirect('/');
+					$usersModel->lastVisit( $storage_data->id );
+
+					$this->redirect('/');
 				}
 				else {
 					$this->_helper->FlashMessenger('Неправильный логин или пароль!');

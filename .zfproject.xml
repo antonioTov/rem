@@ -37,6 +37,8 @@
           <dbTableFile dbTableName="Administrators"/>
           <dbTableFile dbTableName="Movies"/>
           <dbTableFile dbTableName="Users"/>
+          <dbTableFile dbTableName="Regions"/>
+          <dbTableFile dbTableName="Cities"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory>
