@@ -15,10 +15,6 @@ class ProfileController extends Zend_Controller_Action
 		$this->_uid = Zend_Auth::getInstance()->getIdentity()->id;
        	$this->view->uid = $this->_uid;
 
-		$ajaxContext = $this->_helper->getHelper('AjaxContext');
-		$ajaxContext
-			->addActionContext('cities', 'json')
-			->initContext();
     }
 
 
@@ -77,21 +73,6 @@ class ProfileController extends Zend_Controller_Action
 		$this->view->regions = $regions->fetchAll(null,null, 20);
 	}
 
-
-	public function citiesAction()
-	{
-		if( $this->getRequest()->isPost() )
-		{
-			$q = $this->getRequest()->getPost('q');
-
-			//$citiesModel = new Application_Model_DbTable_Cities();
-
-			//$cities = $citiesModel->fetchAll();
-			$this->_helper->json( array(
-				'word' => $q
-			) );
-		}
-	}
 
 }
 
