@@ -3,10 +3,17 @@
 class AuthController extends Zend_Controller_Action
 {
 
+
 	public function loginAction()
 	{
+		if ( Zend_Auth::getInstance()->hasIdentity() ) {
+			$this->redirect('/');
+		}
+
 		$form = new Application_Form_QuickReg();
 		$form = $form->toLogin();
+
+		$form->getElement('submit')->setLabel('Войти');
 
 		$this->view->form = $form;
 

@@ -20,6 +20,7 @@ class Application_Form_QuickReg extends Zend_Form
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
+			->setOrder(1)
 			->addValidators( array(
 				array('NotEmpty', true,
 					array(
@@ -41,7 +42,14 @@ class Application_Form_QuickReg extends Zend_Form
 							'recordFound' => $errorBusy
 						)
 					))
-			));
+			))
+			->setDecorators(array('ViewHelper'));
+//			->setDecorators(array(
+//				'ViewHelper',
+//				'Errors',
+//				array(array('td' => 'HtmlTag'), array('tag' => 'td')),
+//				array('Label'),
+//			));
 
 
 		//-----------------------------------------------------------------//
@@ -77,11 +85,8 @@ class Application_Form_QuickReg extends Zend_Form
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('class', 'new')
 			->setLabel('Регистрация')
-			->setDecorators(array(
-				'ViewHelper',
-				'Errors',
-				array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class' =>'button')),
-			));
+			->setOrder(3)
+			->setDecorators(array('ViewHelper'));
 
 
 		$this->addElements( array( $email, $submit ) );
@@ -89,6 +94,10 @@ class Application_Form_QuickReg extends Zend_Form
 	}
 
 
+	/**
+	 * Перестраивает форму быстрой регистрации в форму авторизации
+	 * @return $this
+	 */
 	public function toLogin()
 	{
 		$pass = new Zend_Form_Element_Password('pass');
@@ -96,20 +105,22 @@ class Application_Form_QuickReg extends Zend_Form
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
+			->setOrder(2)
 			->addValidators(array(
 				array('NotEmpty', true, array('messages' => array(
 					'isEmpty' => 'Пароль не может быть пустым!',
 				)))))
-			->setDecorators(array(
-				'ViewHelper',
-				'Errors',
-				array(array('td' => 'HtmlTag'), array('tag' => 'td')),
-				array('Label'),
-			));
+			->setDecorators(array('ViewHelper'));
 
 		$this
-			->addElement( $pass )
-			->setAction('/auth/login');
+			->addElement( $pass, null, array('order' => 10))
+			->setAction('/auth/login')
+			 ->setDecorators(array(
+				'FormElements',
+				array('HtmlTag', array('tag' => 'p')),
+				'Form'
+			 )
+		 );
 
 		$this->getElement('email')->removeValidator('Db_NoRecordExists');
 

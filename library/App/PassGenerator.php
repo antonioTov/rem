@@ -1,5 +1,5 @@
 <?php
-class Rem_PassGenerator
+class App_PassGenerator
 {
 	const LENGTH = 8;
 

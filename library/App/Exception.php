@@ -1,5 +1,5 @@
 <?php
-class Rem_Exception extends Zend_Exception
+class App_Exception extends Zend_Exception
 {
 	public function __construct( $code )
 	{

@@ -9,19 +9,15 @@ echo $this->doctype(); ?>
         echo $this->headMeta();
     ?>
 
-	<title><?=$_SERVER["HTTP_HOST"];?> | Admin Panel</title>
+	<title><?php echo $this->title ?></title>
 
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="/design/css/select2.css" />
-	<link rel="stylesheet" type="text/css" href="/design/css/admin_style.css" />
-	<!--[if IE 8]><link rel="stylesheet" type="text/css" href="/design/css/IE8.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="/design/css/style.css" />
 
 	<link rel="shortcut icon" href="/design/img/favicon.ico">
 
 	<script type="text/javascript" src="/design/js/jquery-1.9.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script type="text/javascript" src="/design/js/select2.min.js"></script>
-	<script type="text/javascript" src="/design/js/common.js"></script>
 
 	<!--[if lt IE 7]>
 	<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script>
@@ -32,37 +28,71 @@ echo $this->doctype(); ?>
 
 <body>
 
-<div class="top">
-	<div class="header_title"><a  href="/"><? echo $_SERVER["HTTP_HOST"];?></a> | ADMINISTRATION</div>
-</div>
+	<div id="wrapper">
 
-<div class="wrapper">
+		<div id="top-line">
+			<div class="top-line-cont">
 
-		<div id="mainMenu">
-			<div class="jqueryslidemenu">
-				<ul>
-					<li><a href="/">Игроки</a></li>
-					<li><a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick'), 'default' ) ?>">Регистрация</a></li>
-					<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
-				</ul>
-			</div>
-			<div class="jqueryslidemenu" style="float: right;">
-				<ul>
-					<li><span class="auth-name"><?php if (Zend_Auth::getInstance()->getIdentity()) echo Zend_Auth::getInstance()->getIdentity()->email ?></span></li>
-					<li><a href="/auth/logout">Выход</a></li>
-				</ul>
+				<a href="/" id="logo"><img src="/design/img/logo.png" width="208" height="39"></a>
+
+				<div class="profile-nav" id="profile-nav">
+
+					<span class="profile-nav-id">
+						<?php if ( Zend_Auth::getInstance()->hasIdentity() ) { echo Zend_Auth::getInstance()->getIdentity()->email  ?>
+					</span>
+
+					<span class="profile-nav-avatar">
+						<img src="/static/avatars/UvDX3mJ1UWI.jpg" width="30" height="30"/>
+					</span>
+
+					<ul>
+						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
+						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
+						<li><a href="/auth/logout">Выход</a></li>
+					</ul>
+
+					<? } ?>
+				</div>
+
+				<?php if ( ! Zend_Auth::getInstance()->hasIdentity() )  { ?>
+				<div class="sign-btns-cont">
+					<a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick'), 'default', true ) ?>" class="btn reg">Регистрация</a>
+					<a href="<?php echo $this->url(array('controller' =>'auth', 'action' => 'login'), 'default', true ) ?>" class="btn auth">Авторизация</a>
+				</div>
+				<? } ?>
+
 			</div>
 		</div>
-		<div class="clear"></div>
 
+		<div id="top-nav-line">
+			<table id="top-nav">
+				<tr>
+					<td><a href="/">Мастера</a></td>
+					<td><a href="/">Заявки</a></td>
+					<td><a href="/">Фотогалерея работ</a></td>
+					<td><a href="/">Каталог услуг</a></td>
+					<td><a href="/">Рейтинг мастеров</a></td>
+					<td><a href="/">Каталог заявок</a></td>
+					<td><a href="/">Помощь</a></td>
+					<td class="last">
+						<div class="search-field-cont">
+							<input type="text" id='top-search' placeholder="что будем искать?">
+							<span class="ico-search ui-sp"></span>
+						</div>
+					</td>
+				<tr>
+			</table>
+		</div>
+		
+		<div class="container">
 
-	<div class="container">
+			<div class="content"> <?php echo $this->layout()->content; ?></div>
 
-		<div class="content"> <?php echo $this->layout()->content; ?></div>
+		</div>
 
 	</div>
 
-</div>
+	<script type="text/javascript" src="/design/js/common.js"></script>
 
 </body>
 </html>

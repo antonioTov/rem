@@ -1,5 +1,5 @@
 <?php
-class Rem_Mail extends Zend_Mail
+class App_Mail extends Zend_Mail
 {
 	/**
 	 * Encode a given string with the QUOTED_PRINTABLE mechanism

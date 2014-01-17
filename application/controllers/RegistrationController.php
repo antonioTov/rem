@@ -30,7 +30,7 @@ class RegistrationController extends Zend_Controller_Action
 				$email = $formData['email'];
 
 				// генерируем временный пароль
-				$pass = Rem_PassGenerator::generate();
+				$pass = App_PassGenerator::generate();
 
 				$this->view->email			= $email;
 				$this->view->pass 			= $pass;

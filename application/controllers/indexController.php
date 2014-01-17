@@ -9,8 +9,8 @@ class indexController extends Zend_Controller_Action
 	 */
 	function indexAction()
     {
-		if (false)
-		throw new Rem_Exception(404);
+		//if (1)
+		//throw new App_Exception(404);
 
     }
 

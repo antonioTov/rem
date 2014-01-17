@@ -29,16 +29,14 @@ $(document).ready(function() {
     });
 
 
-    $( "#datepicker" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: '1960:с',
-        minDate: new Date(1960, 1 - 1, 1),
-        maxDate: new Date(1995, 12 - 1, 31),
-        dateFormat: 'dd.mm.yy'
+    var profileNav = $('#profile-nav');
+    profileNav.on('click', function(){
+        profileNav.find('ul').toggle();
     });
 
+    //$('body').on('click', function(){ alert('s'); });
 
+    //$('body :not(#profile-nav)').click(function(){ alert('s');});
 
 //-------------------------------------------------//
 // ѕроверка на уникальность имени игрока
