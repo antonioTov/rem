@@ -1,1 +1,181 @@
-<h1>index</h1>
+<div class="left-col">
+
+	<h1>Каталог заявок</h1>
+
+	<div class="adv-list">
+
+		<?php
+			if( $this->projects ) {
+				foreach( $this->projects as $project ) {
+		?>
+		<div class="adv-item">
+			<h3 class="adv-title">
+				<a href="#"><?php echo $this->escape( $project->name ) ?></a>
+			</h3>
+			<div class="adv-city">
+				<?php echo $this->escape( $this->cities[$project->city_id]['name'] )  ?>
+			</div>
+			<div class="adv-desc">
+				<?php echo $this->escape( $project->description ) ?>
+			</div>
+
+			<div class="adv-bar">
+
+				<span class="adv-bar-item">
+					<span class="adv-bar-icon time ui-sp"></span>
+					<?php echo $this->escape( App_Dater::convertToDiffTime( $project->minuts )  ) ?>
+					<?php echo $this->escape( $this->plural($project->minuts,  'час', 'часa', 'часов') ); ?>
+					назад
+				</span>
+
+				<span class="adv-bar-item">
+					<span class="adv-bar-icon offers ui-sp"></span>
+					3 предложения
+				</span>
+
+			</div>
+		</div>
+
+		<?php } } ?>
+
+	</div>
+
+</div>
+
+
+<div class="rigth-col-1">
+
+	<div class="ui-widget">
+		<div class="ui-widget-title">
+			Каталог услуг
+		</div>
+		<div class="ui-widget-body">
+			<ul class="cat-list">
+				<li><a href="#">Ремонт квартиры</a></li>
+				<li><a href="#">Строительство домов, котеджей</a></li>
+				<li><a href="#">Ремонт кухни</a></li>
+				<li><a href="#">Ремонт ванной</a></li>
+				<li><a href="#">Строительство бань и саун</a></li>
+				<li><a href="#">Ремонт офиса</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-widget">
+		<div class="ui-widget-title">
+			Новые заявки
+		</div>
+		<div class="ui-widget-body">
+			<ul class="cat-list">
+				<li><a href="#">Ремонт квартиры</a></li>
+				<li><a href="#">Строительство домов, котеджей</a></li>
+				<li><a href="#">Ремонт кухни</a></li>
+				<li><a href="#">Ремонт ванной</a></li>
+				<li><a href="#">Строительство бань и саун</a></li>
+				<li><a href="#">Ремонт офиса</a></li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<div class="rigth-col-2">
+
+	<div class="ui-widget">
+		<div class="ui-widget-title">
+			Каталог услуг
+		</div>
+		<div class="ui-widget-body">
+			<ul class="cat-list">
+				<li><a href="#">Ремонт квартиры</a></li>
+				<li><a href="#">Строительство домов, котеджей</a></li>
+				<li><a href="#">Ремонт кухни</a></li>
+				<li><a href="#">Ремонт ванной</a></li>
+				<li><a href="#">Строительство бань и саун</a></li>
+				<li><a href="#">Ремонт офиса</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="ui-widget">
+		<div class="ui-widget-title">
+			ТОП-10 мастеров
+		</div>
+		<div class="ui-widget-body">
+			<ul class="masters-list">
+				<li>
+					<span class="item-order">1</span>
+					<span class="master-box">
+						<a href="#">Станислав Мялицын</a>
+						<span class="master-post">столяр</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">2</span>
+					<span class="master-box">
+						<a href="#">Дмитрий Симонян</a>
+						<span class="master-post">плиточник</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">3</span>
+					<span class="master-box">
+						<a href="#">Руслан Сабиров</a>
+						<span class="master-post">сантехник</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">4</span>
+					<span class="master-box">
+						<a href="#">Михаил Шершнёв</a>
+						<span class="master-post">сварщик</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">5</span>
+					<span class="master-box">
+						<a href="#">Даниил Лазарев</a>
+						<span class="master-post">плиточник</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">6</span>
+					<span class="master-box">
+						<a href="#">Игорь Стеценко</a>
+						<span class="master-post">дизайнер интерьеров</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">7</span>
+					<span class="master-box">
+						<a href="#">Антон Вовкориз</a>
+						<span class="master-post">кровельщик</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">8</span>
+					<span class="master-box">
+						<a href="#">Армен Шахназарян</a>
+						<span class="master-post">жестянщик</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">9</span>
+					<span class="master-box">
+						<a href="#">Наталья Решетилова</a>
+						<span class="master-post">маляр</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">10</span>
+					<span class="master-box">
+						<a href="#">Геннадий Нестратов</a>
+						<span class="master-post">гипсокартонщик</span>
+					</span>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+
+</div>

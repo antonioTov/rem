@@ -6,9 +6,14 @@ class Application_Model_DbTable_Projects extends Zend_Db_Table_Abstract
     protected $_name = 'projects';
 
 
-	public function getByName( $name )
+	public function getProjects()
 	{
-		return $this->fetchRow( $this->select()->where('login = ?', (string) $name ) );
+		$select = $this->select()
+							->from($this->_name, array('*', 'minuts' => 'TIMESTAMPDIFF(MINUTE, date, NOW())' ))
+							->where('active = 1')
+							->order('rate')
+							->limit(15);
+		return $this->fetchAll( $select );
 	}
 
 }

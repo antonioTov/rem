@@ -30,13 +30,16 @@ $(document).ready(function() {
 
 
     var profileNav = $('#profile-nav');
-    profileNav.on('click', function(){
-        profileNav.find('ul').toggle();
+    profileNav.on('click', function(e){
+            profileNav.find('ul').toggle();
     });
 
-    //$('body').on('click', function(){ alert('s'); });
-
-    //$('body :not(#profile-nav)').click(function(){ alert('s');});
+    $(document).on('click', function(e){
+        var target = $(e.target);
+        if( ! target.is('#profile-nav') && ! target.parents('#profile-nav').length ) {
+            $('#profile-nav ul').hide();
+        }
+    });
 
 //-------------------------------------------------//
 // ѕроверка на уникальность имени игрока

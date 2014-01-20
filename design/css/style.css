@@ -29,6 +29,16 @@ li { list-style: none }
     font-family: 'Arsenal-Regular';
     src: url('/design/fonts/Arsenal-Regular.otf');
 }
+h1
+{
+    color: #424854;
+    font-size: 30px;
+}
+h3
+{
+    font-size: 20px;
+    margin: 10px 0;
+}
 .clear
 {
     clear: both;
@@ -204,4 +214,153 @@ li { list-style: none }
     color: white;
     font-size: 14px;
     padding: 3px;
+}
+#wrapper
+{
+    background: #f1f2f6;
+}
+.content
+{
+    margin-top: 25px;
+    overflow: hidden;
+}
+.adv-item
+{
+    border-bottom: 1px solid #e1e2e6;
+    padding-bottom: 20px;
+}
+.adv-city
+{
+    color: #4ebfe9;
+    font-size: 18px;
+    margin: 5px 0;
+}
+.adv-desc
+{
+    color: #8aa7c4;
+    font-size: 16px;
+}
+.left-col
+{
+    width: 670px;
+    float: left;
+    margin-right: 20px;
+}
+h3.adv-title a
+{
+    color: #424854;
+    text-decoration: none;
+}
+h3.adv-title a:hover
+{
+    text-decoration: underline;
+}
+.adv-bar
+{
+    margin: 10px 0;
+}
+.adv-bar-icon
+{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+.adv-bar-icon.time
+{
+    background-position: -40px -10px;
+}
+.adv-bar-icon.offers
+{
+    background-position: -70px -10px;
+}
+.adv-bar-item
+{
+    color: #abb1bd;
+    font-size: 15px;
+    font-family: Arsenal-Italic;
+    margin-right: 20px;
+}
+.rigth-col-1
+{
+    margin-right: 20px;
+}
+.rigth-col-1, .rigth-col-2
+{
+    float: left;
+}
+.rigth-col-2
+{
+    float: left;
+}
+
+.ui-widget
+{
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px #e3e4e8;
+    width: 200px;
+    margin-bottom: 20px;
+}
+.ui-widget .cat-list a
+{
+    color: #50c1eb;
+    font-size: 16px;
+    padding: 5px 0;
+    display: block;
+}
+.ui-widget-title
+{
+    font-size: 24px;
+    color: #424854;
+}
+.ui-widget-body
+{
+    margin-top: 15px;
+}
+.masters-list .item-order
+{
+    background: #fb6f4e;
+    display: inline-block;
+    width: 30px;
+    height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-size: 17px;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+.masters-list li
+{
+    border-bottom: 1px solid #ebeff2;
+    margin: 0 -20px;
+    padding: 5px 20px;
+}
+.masters-list li:first-child .item-order
+{
+    background: #9fd468;
+}
+.masters-list li:last-child
+{
+    border: none;
+}
+.masters-list a
+{
+    color: #424854;
+    text-decoration: none;
+    font-size: 16px;
+}
+.masters-list .master-post
+{
+    display: block;
+    color: #a8b2be;
+}
+.master-box
+{
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
 }

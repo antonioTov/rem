@@ -48,7 +48,7 @@ echo $this->doctype(); ?>
 					<ul>
 						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
 						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
-						<li><a href="/auth/logout">Выход</a></li>
+						<li><a href="/logout">Выход</a></li>
 					</ul>
 
 					<? } ?>
