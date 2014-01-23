@@ -41,12 +41,18 @@ class AuthController extends Zend_Controller_Action
 					$storage_data = $authAdapter->getResultRowObject(
 						null,
 						array('activate', 'password', 'enabled'));
-					$storage_data->status = 'admin';
-					$storage->write($storage_data);
+
+					unset($storage_data->pass);
+
+					// допишем данные профиля в сессию
+					$profileModel = new Application_Model_DbTable_Profiles();
+					$profileData = $profileModel->getProfile( $storage_data->profile_id );
+
+					$storage->write( (object) array_merge( (array) $storage_data, (array) $profileData));
 
 					$usersModel->lastVisit( $storage_data->id );
 
-					$this->redirect('/');
+					$this->redirect('/profile');
 				}
 				else {
 					$this->_helper->FlashMessenger('Неправильный логин или пароль!');
@@ -66,6 +72,6 @@ class AuthController extends Zend_Controller_Action
 	public function logoutAction()
 	{
 		Zend_Auth::getInstance()->clearIdentity();
-		$this->_helper->redirector('login'); // back to login page
+		$this->redirect('login'); // back to login page
 	}
 }

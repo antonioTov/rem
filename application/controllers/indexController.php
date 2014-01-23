@@ -22,7 +22,7 @@ class indexController extends Zend_Controller_Action
 
 		$this->view->cities 		= $cities;
 		$this->view->projects 	= $projectsModel->getProjects();
-
+		print_r(Zend_Auth::getInstance()->getStorage()->read());
     }
 
 

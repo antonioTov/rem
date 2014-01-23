@@ -9,7 +9,7 @@ echo $this->doctype(); ?>
         echo $this->headMeta();
     ?>
 
-	<title><?php echo $this->title ?></title>
+	<title><?php echo $this->escape( $this->title )  ?></title>
 
 	<link rel="stylesheet" type="text/css" href="/design/css/select2.css" />
 	<link rel="stylesheet" type="text/css" href="/design/css/style.css" />
@@ -42,12 +42,12 @@ echo $this->doctype(); ?>
 					</span>
 
 					<span class="profile-nav-avatar">
-						<img src="/static/avatars/UvDX3mJ1UWI.jpg" width="30" height="30"/>
+						<img src="/static/avatars/<?php echo Zend_Auth::getInstance()->getIdentity()->photo ?>" width="30" height="30"/>
 					</span>
 
 					<ul>
-						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
-						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
+						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
+						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
 						<li><a href="/logout">Выход</a></li>
 					</ul>
 

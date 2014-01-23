@@ -5,25 +5,93 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 
     protected $_name = 'profiles';
 
+	private $_cache;
 
-	/**
-	 * Получение данных по ID
-	 * @param $id
-	 * @return array
-	 * @throws Exception
-	 */
-	public function getPlayer( $id )
+
+	public  function init() {
+		$frontendOptions = array(
+			'lifetime' => 3600,
+			'automatic_serialization' => true
+		);
+
+		$backendOptions = array('cache_dir' => './tmp/cache');
+
+		$this->_cache = Zend_Cache::factory('Output','File',
+			$frontendOptions,
+			$backendOptions);
+	}
+
+
+
+	private function _getFromCache( $pid )
 	{
-		$id = (int) $id;
-		$row = $this->fetchRow('id = ' . $id);
-		if (!$row) {
-			throw new Exception("Could not find row $id");
+		$cacheId = 'profile' . $pid;
+
+		if( ! $profileData = $this->_cache->load( $cacheId ) ) {
+
+			$profileData = $this->fetchRow('pid = ' . $pid);
+			if ( ! $profileData ) {
+				return array();
+			}
+			$this->_cache->save( $profileData, $cacheId );
 		}
-		return $row->toArray();
+
+		return  $profileData->toArray();
 	}
 
 
 	/**
+	 * Очистка кеша
+	 * @param $pid
+	 */
+	private function _clearCache( $pid )
+	{
+		$cacheId = 'profile' . $pid;
+		$this->_cache->remove( $cacheId );
+	}
+
+
+	/**
+	 * Обновление данных профиля,
+	 * @param array $formData
+	 * @return int
+	 */
+	public function updateProfile( array $formData )
+	{
+		$data = array(
+			'first_name'	=> $formData['first_name'],
+			'last_name' 	=> $formData['last_name'],
+			'patronymic'  	=> $formData['patronymic'],
+			'birth'    		=> $formData['birth'],
+			'phone'    		=> $formData['phone'],
+			'branches'    	=> $formData['branches'],
+			'city_id'    		=> $formData['city_id']
+		);
+
+		$pid = Zend_Auth::getInstance()->getIdentity()->profile_id;
+
+		$this->_clearCache( $pid );
+
+		return $this->update( $data, 'pid = ' . $pid );
+	}
+
+
+	/**
+	 * Получение своего профиля
+	 * данные кешируются
+	 * @param null $pid
+	 * @internal param null $id
+	 * @return array
+	 */
+	public function getProfile( $pid = null )
+	{
+		$pid = $pid ? $pid : Zend_Auth::getInstance()->getIdentity()->profile_id;
+		return $this->_getFromCache( (int) $pid );
+	}
+
+
+
+	/** !!!
 	 * Поиск игрока по имени
 	 * @param $name
 	 * @return bool
@@ -39,7 +107,7 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 	}
 
 
-	/**
+	/** !!!
 	 * Добавление игрока
 	 * @param $data
 	 */
@@ -49,7 +117,7 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 	}
 
 
-	/**
+	/** !!!
 	 * Обновление данных игрока
 	 * @param $id
 	 * @param $data
@@ -60,7 +128,7 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 	}
 
 
-	/**
+	/** !!!
 	 * Удаление игрока
 	 * @param $id
 	 */
@@ -69,7 +137,9 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 		$this->delete('id =' . (int) $id );
 	}
 
-
+	/** !!!
+	 * @param $ids
+	 */
 	public function deleteByIds( $ids )
 	{
 		$this->delete('id IN (' . (string) $ids . ')' );

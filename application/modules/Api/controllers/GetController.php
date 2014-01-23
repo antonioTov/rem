@@ -8,6 +8,7 @@ class Api_GetController extends Zend_Controller_Action
 		$ajaxContext = $this->_helper->getHelper('AjaxContext');
 		$ajaxContext
 			->addActionContext('cities', 'json')
+			->addActionContext('citiyname', 'json')
 			->initContext();
 	}
 
@@ -21,7 +22,7 @@ class Api_GetController extends Zend_Controller_Action
 	{
 		if($q = $this->getRequest()->getQuery() )
 		{
-			$cityName 		= iconv( 'utf-8', 'cp1251', $q['q'] );
+			$cityName 		= iconv( 'utf-8', 'cp1251', $q['term'] );
 			$citiesModel	= new Application_Model_DbTable_Cities();
 			$cities 			= $citiesModel->searchByName( $cityName );
 
@@ -30,7 +31,22 @@ class Api_GetController extends Zend_Controller_Action
 			}
 
 			$this->_helper->json( array(
-				'cities' => $cities
+				'text' => $cities
+			) );
+		}
+
+	}
+
+	public function citynameAction()
+	{
+		if($q = $this->getRequest()->getQuery() )
+		{
+			$cityId 		= $q['query'];
+			$citiesModel	= new Application_Model_DbTable_Cities();
+			$city 			= $citiesModel->searchById( $cityId );
+
+			$this->_helper->json( array(
+				'city' => iconv('cp1251', 'utf-8', $city['name'] )
 			) );
 		}
 

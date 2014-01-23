@@ -5,33 +5,25 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 
     protected $_name = 'users';
 
-
-	// определение фильтров и валидаторов входных данных
-	private $_filters = array(
-		'pass'    => array('HtmlEntities', 'StripTags', 'StringTrim'),
-		'email' 	=> array('HtmlEntities', 'StripTags', 'StringTrim'),
-		'price'    => array('HtmlEntities', 'StripTags', 'StringTrim')
-	);
-
-	private $_validators = array(
-		'title'     => array(),
-		'shortdesc' => array(),
-		'price'     => array('Float'),
-		'quantity'  => array('Int')
-	);
-
 	/**
 	 * Добавление записи при быстрой регистрации
+	 * Паралельно создается пустая запись в профиле
 	 * @param $email
 	 * @param $pass
 	 * @return bool
 	 */
 	public function quickRegAdd( $email, $pass )
 	{
+		// создаем пустую запись профиля
+		$profileModel = new Application_Model_DbTable_Profiles();
+		$pid = $profileModel->insert( array() );
+
 		$data = array(
 			'email' => $email,
-			'pass' => md5( $pass )
+			'pass' => md5( $pass ),
+			'profile_id' => $pid
 		);
+
 		if( $this->insert( $data ) ) {
 			return true;
 		}
@@ -62,22 +54,32 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 
 	public function lastVisit( $id )
 	{
-		$currDate =  date( 'Y-m-d H:i:s', time() );
-		echo $this->update( array('last_visit' =>$currDate ), 'id = ' . (int) $id );
+		$data = array(
+			'last_visit' 	=> date( 'Y-m-d H:i:s', time() ),
+			'last_ip'		=> $_SERVER['REMOTE_ADDR']
+		);
+
+		$this->update( $data, 'id = ' . (int) $id );
 	}
 
 
-
-	private function _dataValidation( $data )
+	public function updateEmail( $email )
 	{
-		$input = new Zend_Filter_Input($this->_filters,
-			$this->_validators, $data);
-		if ( ! $input->isValid() ) {
-			throw new Zend_Exception('Invalid input');
-		}
+		$data = array(
+			'email' => $email
+		);
 
-		return $input->getEscaped();
+		$pid = Zend_Auth::getInstance()->getIdentity()->profile_id;
+		$uid = Zend_Auth::getInstance()->getIdentity()->id;
+
+		if( $this->update( $data, 'profile_id = ' . $pid . ' AND id = ' . $uid ) ) {
+			$storage = Zend_Auth::getInstance()->getStorage();
+			$storageData = $storage->read();
+			$storageData->email = $email;
+			$storage->write( $storageData );
+		}
 	}
+
 
 
 }

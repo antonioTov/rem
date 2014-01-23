@@ -1,0 +1,13 @@
+<div class="">На сайте с <?php echo $this->escape( $this->howLong ) ?></div>
+
+<div>
+	<img src="/static/avatars/<?php echo $this->escape( $this->avatar ) ?>" alt=""/>
+</div>
+<a href="#" class="btn file-input-wrapper ">
+	Изменить
+	<input type="file" id="user-avatar" name="file">
+</a>
+<span class="file-input-name"></span>
+<div class="clear"></div>
+
+<?php echo $this->form ?>

@@ -1,11 +1,25 @@
-<br /><br />
-<ul>
-	<li>
-		<a href="<?php echo $this->url( array('id' => $this->uid, 'action' => 'password' ), 'profile' )?>">Изменить пароль</a>
-	</li>
-	<li>
-		<a href="<?php echo $this->url( array('id' => $this->uid, 'action' => 'info' ), 'profile' ) ?>">Изменить данные</a>
-	</li>
-	<li></li>
-	<li></li>
-</ul>
+<div class="profile-wrap">
+	<div class="profile-image-wrap">
+		<img src="/static/avatars/<?php echo $this->escape( $this->profile['photo'] ) ?>" alt="" width="90" height="90"/>
+	</div>
+
+	<h2>
+		<p><?php echo $this->escape( $this->profile['first_name'] . ' ' . $this->profile['last_name'] ) ?></p>
+	</h2>
+	<p><?php echo $this->escape( $this->profile['city'] ) ?></p>
+	<p><?php echo $this->escape( $this->profile['branches'] ) ?></p>
+
+	<? if( Zend_Auth::getInstance()->getIdentity()->profile_id == $this->profile['pid'] ) { ?>
+
+		<ul>
+			<li>
+				<a href="<?php echo $this->url( array('id' => $this->pid, 'action' => 'password' ), 'profile' )?>">Изменить пароль</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->url( array('id' => $this->pid, 'action' => 'edit' ), 'profile' ) ?>">Изменить данные</a>
+			</li>
+		</ul>
+
+	<? } ?>
+
+</div>

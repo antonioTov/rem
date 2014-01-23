@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    //$.ajaxSetup({ cache: false }); // ?
 
     $("#cities").select2({
         placeholder: "Введите город",
@@ -8,25 +9,72 @@ $(document).ready(function() {
             url: '/api/get/cities/format/json',
             dataType: "json",
             data: function (term) {
-                return { q: term }
+                return { term: term }
             },
             results: function (data) {
-                return { results: data.cities}
+                return { results: data.text }
             }
         },
         formatResult: function(exercise) {
-            console.log(exercise);
-            return "<div class='select2-user-result'>" + exercise.name + "</div>";
+            return exercise.name; //"<div class='select2-user-result'>" + exercise.name + "</div>";
         },
         formatSelection: function(exercise) {
             return exercise.name;
         },
-        initSelection : function (element, callback) { alert('sds');
+        initSelection : function (element, callback) {
             var elementText = $(element).attr('data-init-text');
-            callback({"term":elementText});
+            return callback({id:element.val(), name:elementText});
         }
 
     });
+
+
+    var preload_data = [
+        { id: '1', text: 'Поклейка обоев', locked: true}
+        , { id: '2', text: 'Укладка плитки'}
+        , { id: '3', text: 'Теплоизоляция', locked: true }
+        , { id: '4', text: 'Дизайн интерьера', locked: true }
+        , { id: '5', text: 'Штукатурка'}
+    ];
+
+    $("#branches").select2({
+        placeholder: "Выберите отрасль",
+        minimumInputLength: 3,
+        multiple: true,
+        query: function (query){
+            var data = {results: []};
+
+            $.each(preload_data, function(){
+                if(query.term.length == 0 || this.text.toUpperCase().indexOf(query.term.toUpperCase()) >= 0 ){
+                    data.results.push({id: this.id, text: this.text });
+                }
+            });
+
+            query.callback(data);
+        },
+        ajax: {
+            url: '/api/get/test/format/json',
+            dataType: "json",
+            data: function (term) {
+                return { term: term }
+            },
+            results: function (data) {
+                return { results: data.text }
+            }
+        },
+        formatResult: function(exercise) {
+            return exercise.text; //"<div class='select2-user-result'>" + exercise.name + "</div>";
+        },
+        formatSelection: function(exercise) {
+            return exercise.text;
+        },
+        initSelection : function (element, callback) {
+            var elementText = $(element).attr('data-init-text');
+            return callback({id:element.val(), name:elementText});
+        }
+
+    });
+    $("#branches").select2('data', preload_data );
 
 
     var profileNav = $('#profile-nav');
@@ -39,6 +87,11 @@ $(document).ready(function() {
         if( ! target.is('#profile-nav') && ! target.parents('#profile-nav').length ) {
             $('#profile-nav ul').hide();
         }
+    });
+
+
+    $('#user-avatar').on('change', function(){
+        $('.file-input-name').html($(this).val().replace('C:\\fakepath\\',''));
     });
 
 //-------------------------------------------------//
@@ -67,8 +120,6 @@ $(document).ready(function() {
         }
     });
 
-    $.ajaxSetup({ cache: false });
-
 
 //-------------------------------------------------//    
 // Выделение активного меню
@@ -82,66 +133,13 @@ $(document).ready(function() {
             $(this).addClass('current'); 
         }
     });
-    
-//-------------------------------------------------//    
-// Кнопка "Сохранить"
-//-------------------------------------------------//
-    $('a#save').click(function(){
-        $('#add_edit_form').submit(); 
-        return false;
+
+
+    $('#btn-add-adv').hover(function(){
+       $(this).find('.bg-plus').fadeIn(200);
+    },function(){
+        $(this).find('.bg-plus').fadeOut(200);
     });
 
-
-
-//-------------------------------------------------//
-// Кнопка "Поиск"
-//-------------------------------------------------//
-    $('#search').click(function(){
-        $('#search-cont').toggleClass('visible');
-    })
-
-
-//-------------------------------------------------//
-// Выделить все чекбоксы
-//-------------------------------------------------//
-	$("#check_all").click(function() {
-        if( $(this).prop('checked'))
-            $('input[type="checkbox"][name*="check"]').prop('checked', true).parent().parent().parent().addClass('tr_select');
-        else 
-            $('input[type="checkbox"][name*="check"]').prop('checked', false).parent().parent().parent().removeClass('tr_select');
-	});
-    
-//-------------------------------------------------//
-// Подсветка чекбокса
-//-------------------------------------------------//
-    $('input[type="checkbox"]').not(("#check_all")).click(function(){
-        if($(this).prop("checked")) 
-            $(this).parent().parent().parent().addClass('tr_select');
-        else 
-            $(this).parent().parent().parent().removeClass('tr_select');
-    });
-
-//-------------------------------------------------//
-// Диалоговое окно при удалении групы элементов
-//-------------------------------------------------//
-    $('#event_apply').click(function(){
-        
-        if($('select[name="event"]').val() == '') 
-        {
-            alert("Выберите действие!");
-            return false;
-        } 
-        if($('select[name="event"]').val() == 'delete')
-        {
-            if(confirm("Уверены, что хотите удалить?"))
-                $('#view_form').submit();
-        }
-        else 
-            $('#view_form').submit(); 
-        return false;     
-    });   
-    
-
-     
     
 });

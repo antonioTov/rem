@@ -4,6 +4,12 @@ class ProfileController extends Zend_Controller_Action
 {
 
 	/**
+	 * profile ID
+	 * @var
+	 */
+
+	private $_pid;
+	/**
 	 * user ID
 	 * @var
 	 */
@@ -12,22 +18,40 @@ class ProfileController extends Zend_Controller_Action
 
     public function init()
     {
-		$this->_uid = Zend_Auth::getInstance()->getIdentity()->id;
-       	$this->view->uid = $this->_uid;
+		if( ! Zend_Auth::getInstance()->hasIdentity() ) {
+			$this->redirect('/');
+		}
 
+		$this->_pid = Zend_Auth::getInstance()->getIdentity()->profile_id;
+		$this->_uid = Zend_Auth::getInstance()->getIdentity()->id;
+		$this->view->pid = $this->_pid;
     }
 
 
-
-    public function indexAction()
+	/**
+	 * Просмотр профиля
+	 */
+	public function indexAction()
     {
-		$pid = $this->_getParam('id');
+		$pid = $this->getParam('id', $this->_pid );
 
-		if( ! $pid ) {
-			$this->_redirect('/profile/' . $this->_uid );
+		$profileModel 	= new Application_Model_DbTable_Profiles();
+		$profile = $profileModel->getProfile( $pid );
+
+		if (! $profile ) {
+			$this->renderScript('error/404.phtml');
 		}
 
-		//print_r($this->_getAllParams());
+		// Узнаем горд по ID
+		if ( $cityId = $profile['city_id'] ) {
+			$citiesModel	= new Application_Model_DbTable_Cities();
+			$cityData 		= $citiesModel->getById( $cityId );
+			$profile['city'] = $cityData->name;
+		}
+
+		$this->view->title = $profile['first_name'] . ' ' . $profile['last_name'];
+		$this->view->profile = $profile;
+
     }
 
 
@@ -58,19 +82,67 @@ class ProfileController extends Zend_Controller_Action
 				$storage->write($storage_data);
 				*/
 
-				$this->redirect('/profile/' . $this->_uid );
+				$this->redirect('/profile/' . $this->_pid );
 			 }
 
 		}
 
 	}
 
-
-	public function infoAction()
+	/**
+	 * Редактирование профиля
+	 */
+	public function editAction()
 	{
-		$regions = new Application_Model_DbTable_Cities();
+		$profileForm 	= new Application_Form_Profile();
+		$profileModel 	= new Application_Model_DbTable_Profiles();
+		$userModel	= new Application_Model_DbTable_Users();
 
-		$this->view->regions = $regions->fetchAll(null,null, 20);
+		if( $this->getRequest()->isPost() )
+		{
+			$formData = $this->getRequest()->getPost();
+
+			// при редактировании если email не изменился, то не проверяем го наличие в БД
+			if ($formData['email'] == Zend_Auth::getInstance()->getIdentity()->email ) {
+				$profileForm->getElement('email')->removeValidator('Db_NoRecordExists');
+			}
+
+			$profileForm->isValid($formData);
+
+			// Обновляем данные профиля
+			$profileModel->updateProfile( $profileForm->getValues() );
+
+			// Обноволяем email в БД и сесии
+			if ( ! $profileForm->getErrors('email') ) {
+				$userModel->updateEmail( $profileForm->email->getValue() );
+			}
+
+			//$this->redirect($_SERVER["REQUEST_URI"]);
+		}
+
+		// Получаем данные профиля
+		$profileData = $profileModel->getProfile();
+		$profileForm->populate( $profileData );
+		$profileForm->getElement('email')->setValue( Zend_Auth::getInstance()->getIdentity()->email );
+
+		// Узнаем горд по ID
+		if ( $cityId = $profileData['city_id'] ) {
+			$citiesModel	= new Application_Model_DbTable_Cities();
+			$cityData 		= $citiesModel->getById( $cityId );
+
+			// Подставляем название города в атрибут элемента
+			$profileForm->getElement('city_id')
+				->setAttrib('data-init-text', $cityData->name );
+		}
+		else {
+			$profileForm->getElement('city_id')->setValue(null);
+		}
+
+		$this->view->howLong = date('d.m.y', strtotime( Zend_Auth::getInstance()->getIdentity()->reg_date ) );
+		$this->view->avatar = $profileData['photo'];
+		$this->view->form = $profileForm;
+		$this->view->title = $profileData['first_name'] . ' ' . $profileData['last_name'];
+
 	}
 
 

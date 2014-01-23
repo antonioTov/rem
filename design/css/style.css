@@ -51,8 +51,12 @@ h3
 }
 .top-line-cont, #top-nav, .container
 {
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
+}
+#top-nav
+{
+    width: 100%;
 }
 .sign-btns-cont
 {
@@ -79,12 +83,12 @@ h3
     color: #ffffff;
     text-decoration: none;
     font-size: 14pt;
-    padding: 15px 0;
+    padding: 10px 5px;
     -webkit-font-smoothing: subpixel-antialiased;
 }
 #top-nav a:hover
 {
-    text-decoration: underline;
+    background: #45B7E2;
 }
 #top-nav .last
 {
@@ -96,7 +100,6 @@ h3
     padding: 10px 30px;
     margin: 2px;
     font-size: 17px;
-    font-family: Arial;
     border-radius: 5px;
     color: #ffffff;
     background: #9fd468;
@@ -105,13 +108,15 @@ h3
     vertical-align: middle;
     cursor: pointer;
     text-decoration: none;
-
+    outline: none;
     border: none;
     font-weight: normal;
     line-height: 20px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.15);
+
     -webkit-font-smoothing: subpixel-antialiased;
-    -webkit-transition: 0.25s linear background;
-    transition: 0.25s linear background;
+    -webkit-transition: 0.25s linear background-color;
+    transition: 0.25s linear background-color;
 
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -133,6 +138,41 @@ h3
 }
 .btn.auth:hover {
     background: #fb5937;
+}
+.btn.add-adv {
+    background: url("/design/img/bg-plus.png") no-repeat right bottom #ffce55;
+    box-shadow: 0px 2px #e3e4e8;
+    height: 57px;
+    width: 200px;
+    position: relative;
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    display: block;
+    float: none;
+}
+.btn.add-adv .label {
+    font-size: 24px;
+    text-align: left;
+    float: left;
+    line-height: 22px;
+    padding-top: 6px;
+    width: 100px;
+}
+.btn.add-adv .bg-plus {
+    background: url("/design/img/bg-plus-l.png") no-repeat right bottom;
+    display: block;
+    width: 90px;
+    height: 64px;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+.btn.add-adv:hover
+{
+    background-color: #ffc63b;
+    background-image: none;
 }
 #top-search
 {
@@ -183,6 +223,10 @@ h3
     right: 0;
     top: 60px;
     display: none;
+}
+.profile-nav ul li:last-child a
+{
+    border-top: 1px solid #E7E6E6;
 }
 .profile-nav a
 {
@@ -289,11 +333,6 @@ h3.adv-title a:hover
 {
     float: left;
 }
-.rigth-col-2
-{
-    float: left;
-}
-
 .ui-widget
 {
     background: white;
@@ -318,6 +357,10 @@ h3.adv-title a:hover
 .ui-widget-body
 {
     margin-top: 15px;
+}
+.ui-widget-btns
+{
+    overflow: hidden;
 }
 .masters-list .item-order
 {
@@ -363,4 +406,69 @@ h3.adv-title a:hover
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
+}
+.select2-container
+{
+    width: 120px;
+}
+.fields_block
+{
+    width: 300px;
+}
+.form_item
+{
+    margin: 10px 0;
+}
+.form-input
+{
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-input:focus {
+    border-color: #13c4a5;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.file-input-wrapper
+{
+    position: relative;
+}
+.file-input-wrapper input[type=file], .file-input-wrapper input[type=file]:focus, .file-input-wrapper input[type=file]:hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    z-index: 99;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+}
+.profile-wrap
+{
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.profile-image-wrap
+{
+    float: left;
+    margin-right: 10px;
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    text-align: center;
 }

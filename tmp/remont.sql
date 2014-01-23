@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 20, 2014 at 08:18 PM
+-- Generation Time: Jan 23, 2014 at 07:56 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.1
 
@@ -2513,25 +2513,27 @@ INSERT INTO `cities` (`id`, `region_id`, `name`, `phone_code`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `profiles` (
-  `user_id` int(11) NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(20) NOT NULL,
-  `patronymic` varchar(20) NOT NULL,
-  `gener` enum('male','female') NOT NULL,
-  `birth` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `phone` varchar(13) NOT NULL,
-  `city_id` int(11) NOT NULL,
-  `photo` varchar(50) NOT NULL,
-  `status` int(11) NOT NULL,
-  `rate` int(11) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `patronymic` varchar(50) DEFAULT NULL,
+  `birth` timestamp NULL DEFAULT NULL,
+  `phone` varchar(13) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `photo` varchar(50) NOT NULL DEFAULT 'no-avatar.jpg',
+  `branches` varchar(255) DEFAULT NULL COMMENT 'отрасли',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT 'свободен, занят',
+  `rate` int(11) DEFAULT NULL COMMENT 'рейтинг, баллы',
+  PRIMARY KEY (`pid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `profiles`
 --
 
+INSERT INTO `profiles` (`pid`, `first_name`, `last_name`, `patronymic`, `birth`, `phone`, `city_id`, `photo`, `branches`, `status`, `rate`) VALUES
+(1, 'Антон', 'Товстенко', '', '2014-01-23 18:08:01', '', 908, 'UvDX3mJ1UWI.jpg', NULL, 1, NULL),
+(2, 'John', 'Smith', '', NULL, '', 1217, 'no-avatar.jpg', '1,2,3,4,5', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2564,8 +2566,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name`, `category_id`, `client_id`, `description`, `status`, `city_id`, `price`, `currency`, `payment_method`, `deadline`, `show_comments`, `enable_comments`, `rate`, `date`, `active`) VALUES
-(1, 'Требуются монтажники вентилируемого фасада', 1, 1, 'Монтаж фасада натуральный камень, крепеж вставляют в цеху, Вы собираете подсистему(кронштейн,вертикаль, горизонталь) подвозят готовый по размеру камень, Вы его поднимаете и матируете 1000 руб м2 общий объем 28000м2 Светопрозрачка: Монтаж  установка) алюминиевого каркаса (стоечно-ригельная система HUECK) в проектное', 1, 321, 65535, 1, 1, '2014-01-20 00:00:00', 1, 1, 100, '2014-01-20 17:19:42', 1),
-(2, 'Шпаклевка , малярка и плитка', 1, 1, 'Необходимо подшпаклевать стены и потолок о.п.210 м2, обшито ГКЛ, покрасить, положить паркет, облицевать плиткой с/у. 2-х комнатная квартира в Москве Ленинградское ш. Начинать можно с 10 января.', 1, 432, 1000, 1, 1, '2014-01-29 00:00:00', 1, 1, 102, '2014-01-20 17:23:03', 1);
+(1, 'Требуются монтажники вентилируемого фасада', 1, 1, 'Монтаж фасада натуральный камень, крепеж вставляют в цеху, Вы собираете подсистему(кронштейн,вертикаль, горизонталь) подвозят готовый по размеру камень, Вы его поднимаете и матируете 1000 руб м2 общий объем 28000м2 Светопрозрачка: Монтаж  установка) алюминиевого каркаса (стоечно-ригельная система HUECK) в проектное', 1, 321, 65535, 1, 1, '2014-01-20 00:00:00', 1, 1, 100, '2014-01-21 13:19:42', 1),
+(2, 'Шпаклевка , малярка и плитка', 1, 1, 'Необходимо подшпаклевать стены и потолок о.п.210 м2, обшито ГКЛ, покрасить, положить паркет, облицевать плиткой с/у. 2-х комнатная квартира в Москве Ленинградское ш. Начинать можно с 10 января.', 1, 432, 1000, 1, 1, '2014-01-29 00:00:00', 1, 1, 102, '2014-01-18 01:23:03', 1);
 
 -- --------------------------------------------------------
 
@@ -2618,23 +2620,26 @@ INSERT INTO `regions` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_id` int(11) NOT NULL,
+  `social_id` int(11) DEFAULT NULL,
+  `social_net` enum('vk','fb','od','non') NOT NULL DEFAULT 'non',
   `login` varchar(20) DEFAULT NULL,
-  `pass` varchar(50) NOT NULL,
-  `email` varchar(40) NOT NULL,
+  `pass` varchar(50) DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
+  `email` varchar(40) DEFAULT NULL,
   `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_visit` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `last_ip` varchar(15) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `pass`, `email`, `reg_date`, `last_visit`, `active`) VALUES
-(1, 'anton', '', 'tov.ua@ukr.net', '2013-12-29 17:56:25', '2013-12-29 17:56:29', 1),
-(18, NULL, 'cf30973c653e417a0b60cfe9c2f9ddc5', 'john@ukr.net', '2013-12-30 20:36:29', '0000-00-00 00:00:00', 0),
-(20, NULL, '8b30bea2858345bf428111b57dbb6256', 'ato@ddb.com.ua', '2013-12-30 22:43:52', '0000-00-00 00:00:00', 0),
-(21, NULL, 'b41779690b83f182acc67d6388c7bac9', 'flintec@i.ua', '2014-01-08 10:53:45', '2014-01-20 12:53:48', 0),
-(22, NULL, '0fb6b8662481a81f05597d5abf09f921', 'ato2@ddb.com.ua', '2014-01-13 17:59:31', '0000-00-00 00:00:00', 0);
+INSERT INTO `users` (`id`, `profile_id`, `social_id`, `social_net`, `login`, `pass`, `access_token`, `email`, `reg_date`, `last_visit`, `last_ip`, `active`) VALUES
+(1, 1, 0, 'vk', NULL, 'b41779690b83f182acc67d6388c7bac9', '', 'flintec@i.ua', '2014-01-23 15:46:06', '2014-01-23 17:55:31', '192.168.0.172', 1),
+(2, 2, NULL, 'non', NULL, NULL, NULL, 'tov.uaa@ukr.net', '2014-01-23 16:25:19', '0000-00-00 00:00:00', NULL, 1),
+(3, 2, NULL, 'non', NULL, 'b41779690b83f182acc67d6388c7bac9', NULL, 'tov.ua@ukr.net', '2014-01-23 16:26:00', '2014-01-23 19:48:56', '192.168.0.172', 1);

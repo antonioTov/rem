@@ -44,9 +44,7 @@ class RegistrationController extends Zend_Controller_Action
 				$mail->setHeaderEncoding(Zend_Mime::ENCODING_BASE64);
 				$mail->addTo( $email, 'Test');
 				$mail->setFrom('studio@peptolab.com', 'Test');
-				$mail->setSubject(
-					'Пароль для входа'
-				);
+				$mail->setSubject('Пароль для входа'	);
 				$mail->setBodyHtml( $body );
 				$mail->send();
 
@@ -55,9 +53,7 @@ class RegistrationController extends Zend_Controller_Action
 				if ( $usersModel->quickRegAdd( $email, $pass ) )
 				{
 					echo $pass;
-
 					$form = $form->toLogin();
-
 				}
 				else {
 					echo 'error';
