@@ -23,8 +23,8 @@ $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
-$application->bootstrap()
-            ->run();
+
+$application->bootstrap()->run();
             
  "<style>
             .debug_info { border: 1px solid rgb(80, 175, 66); position: fixed; bottom: 10px; left: 10px; z-index: 99999999; }

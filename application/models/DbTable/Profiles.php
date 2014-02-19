@@ -14,7 +14,7 @@ class Application_Model_DbTable_Profiles extends Zend_Db_Table_Abstract
 			'automatic_serialization' => true
 		);
 
-		$backendOptions = array('cache_dir' => './tmp/cache');
+		$backendOptions = array('cache_dir' => APPLICATION_PATH . '/../tmp/cache');
 
 		$this->_cache = Zend_Cache::factory('Output','File',
 			$frontendOptions,

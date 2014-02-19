@@ -27,6 +27,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	/**
 	 * Инициализация роутера для профиля пользователя
 	 */
+
 	public function _initRouters()
 	{
 		$route = new Zend_Controller_Router_Route(
@@ -45,17 +46,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}
 
 	 /**
-	 * Инициализация плагина авторизации
+	 * Инициализация формы авторизации
 	 */
-/*	public function _initAuth()
+	public function _initLogin()
 	{
 
 		if ( ! Zend_Auth::getInstance()->getIdentity() ) {
-			$this->_register( new Application_Plugin_AuthCheck() );
+
+			$this->bootstrap('layout');
+			$layout = $this->getResource('layout');
+			$view = $layout->getView();
+
+			$view->loginForm = new Application_Form_Login();
+			$view->registrationForm =  new Application_Form_QuickReg();
+
+			return $view;
 		}
 
 	}
-*/
+
 
 	/**
 	 * Инициализация плагина прав доступа
@@ -71,12 +80,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	 *
 	 * @param Zend_Controller_Plugin_Abstract $plugin
 	 */
-/*	private function _register( Zend_Controller_Plugin_Abstract $plugin )
+	private function _register( Zend_Controller_Plugin_Abstract $plugin )
 	{
 		Zend_Controller_Front::getInstance()
 			->registerPlugin( $plugin );
 	}
-*/
+
 
 
 }

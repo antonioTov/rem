@@ -1,4 +1,5 @@
 <?php
+$auth = Zend_Auth::getInstance();
 $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=windows-1251');
 
 echo $this->doctype(); ?>
@@ -12,12 +13,14 @@ echo $this->doctype(); ?>
 	<title><?php echo $this->escape( $this->title )  ?></title>
 
 	<link rel="stylesheet" type="text/css" href="/design/css/select2.css" />
+	<link rel="stylesheet" type="text/css" href="/design/css/app.v2.css" />
 	<link rel="stylesheet" type="text/css" href="/design/css/style.css" />
 
 	<link rel="shortcut icon" href="/design/img/favicon.ico">
 
 	<script type="text/javascript" src="/design/js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="/design/js/select2.min.js"></script>
+	<script type="text/javascript" src="/design/js/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 	<!--[if lt IE 7]>
 	<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script>
@@ -35,29 +38,30 @@ echo $this->doctype(); ?>
 
 				<a href="/" id="logo"><img src="/design/img/logo.png" width="208" height="39"></a>
 
+				<?php if ( $auth->hasIdentity() ) { ?>
 				<div class="profile-nav" id="profile-nav">
 
 					<span class="profile-nav-id">
-						<?php if ( Zend_Auth::getInstance()->hasIdentity() ) { echo Zend_Auth::getInstance()->getIdentity()->email  ?>
+						<?php echo isset($auth->getIdentity()->social_id) ? $auth->getIdentity()->first_name . ' ' . $auth->getIdentity()->last_name : $auth->getIdentity()->email ?>
 					</span>
 
 					<span class="profile-nav-avatar">
-						<img src="/static/avatars/<?php echo Zend_Auth::getInstance()->getIdentity()->photo ?>" width="30" height="30"/>
+						<img src="<?php echo  isset($auth->getIdentity()->social_id) ?  $auth->getIdentity()->photo : '/static/avatars/' . $auth->getIdentity()->photo  ?>" width="30" height="30"/>
 					</span>
 
 					<ul>
-						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
-						<li><a href="<?php echo $this->url(array('id' =>  Zend_Auth::getInstance()->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
+						<li><a href="<?php echo $this->url(array('id' =>  $auth->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Профиль</a></li>
+						<li><a href="<?php echo $this->url(array('id' =>  $auth->getIdentity()->profile_id, 'action' =>'' ), 'profile' ) ?>">Настройки</a></li>
 						<li><a href="/logout">Выход</a></li>
 					</ul>
 
-					<? } ?>
 				</div>
+				<? } ?>
 
-				<?php if ( ! Zend_Auth::getInstance()->hasIdentity() )  { ?>
+				<?php if ( ! $auth->hasIdentity() )  { ?>
 				<div class="sign-btns-cont">
-					<a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick'), 'default', true ) ?>" class="btn reg">Регистрация</a>
-					<a href="<?php echo $this->url(array('controller' =>'auth', 'action' => 'login'), 'default', true ) ?>" class="btn auth">Авторизация</a>
+					<a href="<?php echo $this->url(array('controller' =>'registration', 'action' => 'quick'), 'default', true ) ?>" class="btn-o reg" id="reg-btn">Регистрация</a>
+					<a href="<?php echo $this->url(array('controller' =>'auth', 'action' => 'login'), 'default', true ) ?>" class="btn-o auth" id="auth-btn">Авторизация</a>
 				</div>
 				<? } ?>
 
@@ -76,7 +80,7 @@ echo $this->doctype(); ?>
 					<td><a href="/">Помощь</a></td>
 					<td class="last">
 						<div class="search-field-cont">
-							<input type="text" id='top-search' placeholder="что будем искать?">
+							<input type="text" id='top-search' class="input-ui" placeholder="что будем искать?">
 							<span class="ico-search ui-sp"></span>
 						</div>
 					</td>
@@ -90,7 +94,67 @@ echo $this->doctype(); ?>
 
 		</div>
 
+		<div id="footer">
+			<div class="footer-cont">
+				<ul class="footer-navs">
+					<li>
+						<ul class="footer-navs-item">
+							<li class="footer-navs-title">Услуги</li>
+							<li><a href="#">Мастера и фирмы</a></li>
+							<li><a href="#">Заказы и тендеры</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul class="footer-navs-item">
+							<li class="footer-navs-title">Сервисы</li>
+							<li><a href="#">Форум про ремонту</a></li>
+							<li><a href="#">Фото интерьеров</a></li>
+							<li><a href="#">Строитльные документы</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul class="footer-navs-item">
+							<li class="footer-navs-title">&nbsp;</li>
+							<li><a href="#">Реклама на сайте</a></li>
+							<li><a href="#">Платные услуги</a></li>
+							<li><a href="#">Контакты</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul class="footer-navs-item">
+							<li class="footer-navs-title">Связь</li>
+							<li>+380 97 555 22 11</li>
+							<li>+380 97 555 22 12</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+
 	</div>
+
+	<?php if ( $this->loginForm )  { ?>
+
+	<div class="popup auth-form">
+		<h4>Авторизация</h4>
+		<?php
+		if ( $this->message ) {
+			foreach( $this->message as $message ) { ?>
+				<div class="error"><?php	echo $this->escape($message) ?></div>
+
+			<?php 	}
+		}
+
+			echo $this->loginForm;
+
+		?>
+	</div>
+
+	<div class="popup reg-form">
+		<h4>Регистрация</h4>
+		<?php echo $this->registrationForm ?>
+	</div>
+	<? } ?>
 
 	<script type="text/javascript" src="/design/js/common.js"></script>
 

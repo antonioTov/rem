@@ -38,6 +38,13 @@
 
 	</div>
 
+	<div class="break-line"></div>
+
+	<div class="paginator">
+		<?php echo $this->paginationControl($this->projects,'Sliding','pagination_control.phtml'); ?>
+	</div>
+
+
 </div>
 
 
@@ -55,6 +62,7 @@
 				<li><a href="#">Ремонт ванной</a></li>
 				<li><a href="#">Строительство бань и саун</a></li>
 				<li><a href="#">Ремонт офиса</a></li>
+				<li><a href="#">Подробный каталог услуг</a></li>
 			</ul>
 		</div>
 	</div>
@@ -64,13 +72,36 @@
 			Новые заявки
 		</div>
 		<div class="ui-widget-body">
-			<ul class="cat-list">
-				<li><a href="#">Ремонт квартиры</a></li>
-				<li><a href="#">Строительство домов, котеджей</a></li>
-				<li><a href="#">Ремонт кухни</a></li>
-				<li><a href="#">Ремонт ванной</a></li>
-				<li><a href="#">Строительство бань и саун</a></li>
-				<li><a href="#">Ремонт офиса</a></li>
+			<div class="chart-wrp">
+				<img src="/design/img/chart.jpg" alt=""/>
+				<div class="count-adv">
+					<div>588</div>
+					<span>заявок</span>
+				</div>
+			</div>
+
+			<ul class="masters-list mod">
+				<li>
+					<span class="item-order purple">1</span>
+					<span class="master-box">
+						<a href="#">Ремонт кавртиры</a>
+						<span class="master-post">635</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order green">2</span>
+					<span class="master-box">
+						<a href="#">Ремонт кухни</a>
+						<span class="master-post">228</span>
+					</span>
+				</li>
+				<li>
+					<span class="item-order">3</span>
+					<span class="master-box">
+						<a href="#">Натяжные потолки</a>
+						<span class="master-post">156</span>
+					</span>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -81,14 +112,14 @@
 
 	<div class="ui-widget-btns">
 
-		<a class="btn add-adv" href="#" id="btn-add-adv">
-			<span class="label">Добавить заявку</span>
-			<span class="bg-plus"></span>
+		<a class="btn-o add-adv big" href="#" id="btn-add-adv">
+			<span class="b-label">Добавить заявку</span>
+			<span class="bg-fig"></span>
 		</a>
 
-		<a class="btn add-adv" href="#" id="btn-add-adv">
-			<span class="label">Добавить заявку</span>
-			<span class="bg-plus"></span>
+		<a class="btn-o add-res big" href="#" id="btn-add-adv">
+			<span class="b-label">Задать вопрос мастерам</span>
+			<span class="bg-fig"></span>
 		</a>
 
 	</div>

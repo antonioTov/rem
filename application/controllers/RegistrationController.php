@@ -3,23 +3,25 @@
 class RegistrationController extends Zend_Controller_Action
 {
 
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
+	private $isAjax;
 
-    public function indexAction()
-    {
-
-    }
-
-
+	public function init()
+	{
+		$this->isAjax = $this->_request->isXmlHttpRequest();
+		if ($this->isAjax)
+			// если это аякс запрос то отключаем layout
+		$this->_helper->layout()->disableLayout();
+	}
 
 	/**
 	 * Быстрая регистрация
 	 */
-	public function quickAction()
+	public function indexAction()
 	{
+		if ($this->isAjax) {
+			$this->_helper->ViewRenderer->setNoRender();
+		}
+
 		$form = new Application_Form_QuickReg();
 
 		if ( $this->getRequest()->isPost() )
@@ -43,24 +45,34 @@ class RegistrationController extends Zend_Controller_Action
 				$mail = new Zend_Mail('windows-1251');
 				$mail->setHeaderEncoding(Zend_Mime::ENCODING_BASE64);
 				$mail->addTo( $email, 'Test');
-				$mail->setFrom('studio@peptolab.com', 'Test');
+				$mail->setFrom('info@realmaster.com.ua', 'realmaster.com.ua');
 				$mail->setSubject('Пароль для входа'	);
 				$mail->setBodyHtml( $body );
 				$mail->send();
 
 				$usersModel = new Application_Model_DbTable_Users();
 
-				if ( $usersModel->quickRegAdd( $email, $pass ) )
-				{
-					echo $pass;
-					$form = $form->toLogin();
-				}
-				else {
-					echo 'error';
+				if ( $usersModel->quickRegAdd( $email, $pass ) ) {
+
+					$form = new Application_Form_Login();
+					if ($this->isAjax) {
+						return $this->_helper->json(array( 'status' => 'ok'	));
+					}
+
+
+				} else {
+					if ($this->isAjax) {
+						return $this->_helper->json(array('status' => 'fail', 'message' => 'error' ));
+					}
 				}
 
-			}
-			else {
+			} else {
+
+				$formMessages = $form->getMessages();
+				if ($this->isAjax) {
+					return $this->_helper->json(array('status' => 'fail', 'message' => iconv('cp1251', 'utf-8', current($formMessages['email']) ) ));
+				}
+
 				$form->populate( $formData );
 			}
 

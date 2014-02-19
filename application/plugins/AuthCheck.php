@@ -7,7 +7,7 @@ class Application_Plugin_AuthCheck extends Zend_Controller_Plugin_Abstract
 			$request
 				->setModuleName('default')
 				->setControllerName('auth')
-				->setActionName('index');
+				->setActionName('login');
 	}
 
 }

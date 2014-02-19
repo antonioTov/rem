@@ -1,15 +1,19 @@
+<?
+$auth = Zend_Auth::getInstance();
+?>
+
 <div class="profile-wrap">
 	<div class="profile-image-wrap">
-		<img src="/static/avatars/<?php echo $this->escape( $this->profile['photo'] ) ?>" alt="" width="90" height="90"/>
+		<img src="<?php echo  isset($auth->getIdentity()->social_id) ?  $this->escape($auth->getIdentity()->photo) : '/static/avatars/' . $this->escape($auth->getIdentity()->photo)  ?>" alt="" width="90" height="90"/>
 	</div>
 
 	<h2>
 		<p><?php echo $this->escape( $this->profile['first_name'] . ' ' . $this->profile['last_name'] ) ?></p>
 	</h2>
-	<p><?php echo $this->escape( $this->profile['city'] ) ?></p>
+	<p><?php echo isset($this->profile['city']) ? $this->escape( $this->profile['city'] ) : '' ?></p>
 	<p><?php echo $this->escape( $this->profile['branches'] ) ?></p>
 
-	<? if( Zend_Auth::getInstance()->getIdentity()->profile_id == $this->profile['pid'] ) { ?>
+	<? if( $auth->getIdentity()->profile_id == $this->profile['pid'] ) { ?>
 
 		<ul>
 			<li>

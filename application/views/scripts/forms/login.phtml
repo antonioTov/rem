@@ -1,0 +1,30 @@
+<form enctype="application/x-www-form-urlencoded" id="login-form" method="<?php echo $this->element->getMethod(); ?>" action="<?php echo $this->element->getAction(); ?>">
+	<div class="login-form-wrp">
+		<div class="fw-left">
+			<div class="f-row">
+				<?php echo $this->element->email ?>
+			</div>
+			<div class="f-row">
+				<?php echo $this->element->pass ?>
+			</div>
+			<div class="f-row mt-20">
+				<a class="class-link" href="#">Забыли пароль?</a>
+				<input type="submit" name="submit" id="auth-submit" value="Войти" class="btn-r">
+			</div>
+			<div class="alter">или</div>
+		</div>
+
+		<div class="fw-right">
+			<div class="f-row">
+				<a href="/auth/fb" class="btn-soc fb">fb</a>
+			</div>
+			<div class="f-row">
+				<a href="/auth/vk" class="btn-soc vk">vk</a>
+			</div>
+			<div class="f-row">
+				<a href="/auth/od" class="btn-soc od">vk</a>
+			</div>
+		</div>
+
+	</div>
+</form>

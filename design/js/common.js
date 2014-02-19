@@ -135,11 +135,110 @@ $(document).ready(function() {
     });
 
 
-    $('#btn-add-adv').hover(function(){
-       $(this).find('.bg-plus').fadeIn(200);
+    $('.btn-o.big').hover(function(){
+       $(this).find('.bg-fig').fadeIn(200);
     },function(){
-        $(this).find('.bg-plus').fadeOut(200);
+        $(this).find('.bg-fig').fadeOut(200);
     });
 
-    
+    $("#auth-btn").on('click',function(){
+        fancyShow( $('.auth-form') );
+        return false;
+    });
+
+    $("#reg-btn").on('click',function(){
+        fancyShow( $('.reg-form') );
+        return false;
+    });
+
+    $('#auth-submit').click(function(){
+        user.auth();
+        return false;
+    });
+
+    $('#reg-submit').click(function(){
+        user.reg();
+        return false;
+    });
+
+    hash_loader();
+
 });
+
+
+function hash_loader() {
+    var hash = window.location.hash.substr(1);
+    if ( typeof window[hash] == 'function') {
+        eval(hash+'()');
+    }
+}
+
+
+function fancyShow( obj ) {
+
+    var fancyBoxOptions = {
+        openEffect	: 'none',
+        closeEffect	: 'none',
+        padding : 30,
+        topRatio : 0.3,
+        tpl: {
+            closeBtn: '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;">закрыть</a>'
+        }
+    };
+
+    $.fancybox( obj, fancyBoxOptions );
+}
+
+
+var user = {};
+
+user.auth = function()
+{
+    var email = $('#auth-email').val();
+    var pass = $('#auth-pass').val();
+
+    $('.alert-error').remove();
+
+    $.post(
+        '/auth/login',
+        {
+            'email' : email,
+            'pass': pass
+        }, function(data){
+
+            if (data.status == 'ok'){
+                location = '/';
+            } else {
+                var out = '<span class="alert-error">' + data.message + '</span>';
+                $('#login-form').before(out);
+                $('#email').focus();
+            }
+        }, 'json'
+    )
+}
+
+user.reg = function()
+{
+    var email = $('#reg-email').val();
+
+    $('.alert-error').remove();
+
+    $.post(
+        '/registration',
+        {
+            'email' : email
+        },
+        function(data) {
+
+            if (data.status == 'ok'){
+                fancyShow( $('.auth-form') );
+                $('#auth-email').val(email);
+            } else {
+
+                var out = '<span class="alert-error">' + data.message + '</span>';
+                $('#reg-form').before(out);
+                $('#reg-email').focus();
+            }
+        }, 'json'
+    )
+}

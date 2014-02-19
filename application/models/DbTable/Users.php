@@ -32,6 +32,36 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 
 	}
 
+	/**
+	 * Добавление записи при реристрации через соц. сети
+	 * Паралельно создается запись в профилье
+	 * @param $data
+	 * @return bool
+	 */
+	public function socRegAdd( $data )
+	{
+		$profileData = array(
+			'first_name' 	=> $data['first_name'],
+			'last_name' 	=> $data['last_name'],
+			'photo'			=> $data['photo']
+		);
+
+		$profileModel = new Application_Model_DbTable_Profiles();
+		$pid = $profileModel->insert( $profileData );
+
+		$userData = array(
+			'profile_id' 			=> $pid,
+			'social_id'			=> $data['social_id'],
+			'social_net' 		=> $data['social_net'],
+			'access_token'	=> $data['access_token'],
+			'email'				=> isset($data['email']) ? $data['email'] : null
+		);
+
+		if( $uid = $this->insert( $userData ) ) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Изменение пароля пользователя
@@ -41,13 +71,13 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 	 */
 	public function changePassword( $id, $pass )
 	{
-		$data = array();
-		$data['pass'] = md5( $pass );
+		$data = array(
+			'pass' => md5( $pass )
+		);
 
 		if( $this->update( $data, 'id = ' . (int) $id ) ) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -77,6 +107,16 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 			$storageData = $storage->read();
 			$storageData->email = $email;
 			$storage->write( $storageData );
+		}
+	}
+
+	public function findBySocId( $socId )
+	{
+		$row = $this->fetchRow( $this->select()->where('social_id = ?' , $socId ) );
+		if( ! $row ) {
+			return false;
+		} else {
+			return $row;
 		}
 	}
 

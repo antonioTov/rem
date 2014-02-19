@@ -1,7 +1,11 @@
+<?
+$auth = Zend_Auth::getInstance();
+?>
+
 <div class="">На сайте с <?php echo $this->escape( $this->howLong ) ?></div>
 
 <div>
-	<img src="/static/avatars/<?php echo $this->escape( $this->avatar ) ?>" alt=""/>
+	<img src="<?php echo  isset($auth->getIdentity()->social_id) ?  $this->escape($auth->getIdentity()->photo) : '/static/avatars/' . $this->escape($auth->getIdentity()->photo)  ?>" alt=""/>
 </div>
 <a href="#" class="btn file-input-wrapper ">
 	Изменить

@@ -18,6 +18,9 @@ class Application_Form_QuickReg extends Zend_Form
 		$email
 			->setLabel('E-mail')
 			->setRequired(true)
+			->setAttrib('class', 'input-ui')
+			->setAttrib('id', 'reg-email')
+			->setAttrib('placeholder', 'введите e-mail')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setOrder(1)
@@ -46,9 +49,7 @@ class Application_Form_QuickReg extends Zend_Form
 			->setDecorators(array('ViewHelper'));
 //			->setDecorators(array(
 //				'ViewHelper',
-//				'Errors',
-//				array(array('td' => 'HtmlTag'), array('tag' => 'td')),
-//				array('Label'),
+//				array('HtmlTag', array('tag' => 'div', 'class' => 'f-row'))
 //			));
 
 
@@ -83,13 +84,21 @@ class Application_Form_QuickReg extends Zend_Form
 		//-----------------------------------------------------------------//
 		// Submit
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('class', 'new')
+		$submit->setAttrib('class', 'btn-r')
+			->setAttrib('id', 'reg-submit')
 			->setLabel('Регистрация')
 			->setOrder(3)
 			->setDecorators(array('ViewHelper'));
 
 
-		$this->addElements( array( $email, $submit ) );
+		$this
+			->addElements( array( $email, $submit ) )
+			->setAttrib('id','reg-form')
+			->setDecorators(array(
+				'FormElements',
+				array('HtmlTag', array('tag' => 'div')),
+				'Form'
+			));
 
 	}
 
@@ -103,6 +112,8 @@ class Application_Form_QuickReg extends Zend_Form
 		$pass = new Zend_Form_Element_Password('pass');
 		$pass->setLabel('Пароль')
 			->setRequired(true)
+			->setAttrib('class', 'input-ui')
+			->setAttrib('placeholder', 'введите пароль')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setOrder(2)
@@ -111,16 +122,24 @@ class Application_Form_QuickReg extends Zend_Form
 					'isEmpty' => 'Пароль не может быть пустым!',
 				)))))
 			->setDecorators(array('ViewHelper'));
+//			->setDecorators(array(
+//				'ViewHelper',
+//				array('HtmlTag', array('tag' => 'div', 'class' => 'f-row'))
+//			));
+
 
 		$this
 			->addElement( $pass, null, array('order' => 10))
 			->setAction('/auth/login')
-			 ->setDecorators(array(
+			->setDecorators(array(
 				'FormElements',
-				array('HtmlTag', array('tag' => 'p')),
+				array('HtmlTag', array('tag' => 'div')),
 				'Form'
-			 )
-		 );
+			 ));
+
+		$this->setDecorators(array(
+			array('ViewScript', array('viewScript' => 'forms/login.phtml'))
+		));
 
 		$this->getElement('email')->removeValidator('Db_NoRecordExists');
 
