@@ -153,6 +153,9 @@ h3
     margin: 0 0 20px;
     display: block;
     float: none;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-transition: 0.25s linear background;
+    transition: 0.25s linear background;
 }
 .btn-o.big .b-label {
     font-size: 24px;
@@ -217,7 +220,8 @@ h3
     position: absolute;
     top: 7px;
     right: 10px;
-    background-position: -10px -10px;
+    font-size: 16px;
+    color: #BDBDBD;
 }
 .search-field-cont
 {
@@ -310,7 +314,7 @@ h3
 }
 .adv-desc
 {
-    color: #8aa7c4;
+    color: #1F4D7A;
     font-size: 16px;
 }
 .left-col
@@ -991,4 +995,14 @@ a.class-link
 {
     float: left;
     margin-right: 10px;
+}
+
+.task-wrap
+{
+    width: 980px;
+}
+.task-text
+{
+    font-size: 16px;
+    margin: 20px 0;
 }

@@ -1,13 +1,13 @@
 <?php
 
-class indexController extends Zend_Controller_Action
+class TaskController extends Zend_Controller_Action
 {
 
 
 	/**
 	 *
 	 */
-	function indexAction()
+	function listAction()
     {
 		$projectsModel 	= new Application_Model_DbTable_Projects();
 		$citiesModel 		= new Application_Model_DbTable_Cities();
@@ -25,9 +25,28 @@ class indexController extends Zend_Controller_Action
 
 		$this->view->cities 		= $cities;
 		$this->view->projects 	= $paginator;
+		$this->view->categories 	= $this->getCategories();
 
     }
 
+	public function viewAction()
+	{
+		$id = $this->_getParam('id');
+
+		$projects	= new Application_Model_DbTable_Projects();
+		$project 	= $projects->fetchRow($projects->select()->where('id = ?', (int) $id));
+
+		$this->view->project = $project;
+
+	}
+
+
+	private function getCategories()
+	{
+		$categories = new Application_Model_DbTable_Categories();
+		 return $categories->getCategories();
+
+	}
 
 
 }

@@ -28,21 +28,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	 * Инициализация роутера для профиля пользователя
 	 */
 
-	public function _initRouters()
+	public function _initRoutes()
 	{
-		$route = new Zend_Controller_Router_Route(
-			'profile/:id/:action',
+		$routeDefault = new Zend_Controller_Router_Route(
+			'/:controller/:action/:id',
 			array(
-				'controller' => 'profile',
-				'action'     	=> 'index',
-				'id'         	=> 0
+				'controller' => 'task',
+				'action'		=> 'list',
+				'id'			=> 0,
+			)
+		);
+
+		$routeTaskList = new Zend_Controller_Router_Route(
+			'/task/:page',
+			array(
+				'controller' => 'task',
+				'action'		=> 'list',
+				'page'		=> 1
+			)
+		);
+
+		$routeProfile = new Zend_Controller_Router_Route(
+			'profile',
+			array(
+				'controller' 	=> 'profile',
+				'action'     	=> 'view',
+				'id'         	=> 0,
+				'news'		=> 'Article_1'
 			)
 			//array('id' => '\d+') // Makes sure :id is an int
 		);
 
 		$router = Zend_Controller_Front::getInstance()->getRouter();
-		$router->addRoute('profile', $route);
-
+		$router->addRoute('route', $routeDefault);
+		$router->addRoute('task_list', $routeTaskList);
+		$router->addRoute('profile', $routeProfile);
 	}
 
 	 /**

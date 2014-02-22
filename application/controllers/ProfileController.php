@@ -31,7 +31,7 @@ class ProfileController extends Zend_Controller_Action
 	/**
 	 * Просмотр профиля
 	 */
-	public function indexAction()
+	public function viewAction()
     {
 		$pid = $this->getParam('id', $this->_pid );
 

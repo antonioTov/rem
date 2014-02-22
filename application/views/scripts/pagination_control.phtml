@@ -5,7 +5,7 @@
 		<div class="pageNavs">
 		<!-- Ссылка на предыдущую страницу -->
 		<?php if (isset($this->previous)): ?>
-			<a href="<?php echo $this->url(array('page' => $this->previous)); ?>" class='prev'>
+			<a href="<?php echo $this->url(array('page' => $this->previous), 'task_list'); ?>" class='prev'>
 				<i class="fa fa-angle-left"></i>
 			</a>
 		<?php else: ?>
@@ -15,7 +15,7 @@
 
 		<!-- Ссылка на следующую страницу -->
 		<?php if (isset($this->next)): ?>
-			<a href="<?php echo $this->url(array('page' => $this->next)); ?>" class="next">
+			<a href="<?php echo $this->url(array('page' => $this->next), 'task_list'); ?>" class="next">
 				<i class="fa fa-angle-right"></i>
 			</a>
 		<?php else: ?>
@@ -26,7 +26,7 @@
 		<!-- Нумерованные ссылки на страницы -->
 		<?php foreach ($this->pagesInRange as $page): ?>
 			<?php if ($page != $this->current): ?>
-				<a href="<?php echo $this->url(array('page' => $page)); ?>">
+				<a href="<?php echo $this->url(array('page' => $page), 'task_list'); ?>">
 					<?php echo $page; ?>
 				</a>
 			<?php else: ?>

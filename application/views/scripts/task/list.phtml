@@ -10,7 +10,7 @@
 		?>
 		<div class="adv-item">
 			<h3 class="adv-title">
-				<a href="#"><?php echo $this->escape( $project->name ) ?></a>
+				<a href="<?=$this->url(array('controller' => 'task', 'action' => 'view', 'id' => $project->id ), 'route')?>"><?php echo $this->escape( $project->name ) ?></a>
 			</h3>
 			<div class="adv-city">
 				<?php echo $this->escape( $this->cities[$project->city_id]['name'] )  ?>
@@ -22,12 +22,12 @@
 			<div class="adv-bar">
 
 				<span class="adv-bar-item">
-					<span class="adv-bar-icon time ui-sp"></span>
+					<i class="fa fa-clock-o"></i>
 					<?php echo $this->escape( $this->pluralTime( $project->date ) ); ?>
 				</span>
 
 				<span class="adv-bar-item">
-					<span class="adv-bar-icon offers ui-sp"></span>
+					<i class="fa fa-male"></i>
 					3 предложения
 				</span>
 
@@ -56,12 +56,9 @@
 		</div>
 		<div class="ui-widget-body">
 			<ul class="cat-list">
-				<li><a href="#">Ремонт квартиры</a></li>
-				<li><a href="#">Строительство домов, котеджей</a></li>
-				<li><a href="#">Ремонт кухни</a></li>
-				<li><a href="#">Ремонт ванной</a></li>
-				<li><a href="#">Строительство бань и саун</a></li>
-				<li><a href="#">Ремонт офиса</a></li>
+				<? foreach( $this->categories as $category ) { ?>
+					<li><a href="<?=$this->url(array('controller' => 'category', 'action' => 'view', 'id' => $category->id ), 'route', true)?>"><?=$this->escape($category->name)?></a></li>
+				<? } ?>
 				<li><a href="#">Подробный каталог услуг</a></li>
 			</ul>
 		</div>
