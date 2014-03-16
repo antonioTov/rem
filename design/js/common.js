@@ -124,7 +124,7 @@ $(document).ready(function() {
 //-------------------------------------------------//    
 // Выделение активного меню
 //-------------------------------------------------//
-    $('.jqueryslidemenu a').each(function () {    
+    $('.jqueryslidemenu a').each(function () {
         var location = window.location.href 
         var link = this.href                
         var result = location.match(link);  
@@ -161,9 +161,25 @@ $(document).ready(function() {
         return false;
     });
 
+    $('.checkbox-custom i').on('click', function(){
+        var icon = $(this);
+        var input = $(this).parent().find('input');
+
+       if(icon.hasClass('checked')) {
+           icon.removeClass('checked');
+           input.prop('checked', true);
+        } else {
+           icon.addClass('checked');
+           input.prop('checked', false);
+        }
+    });
+
+
     hash_loader();
 
 });
+
+
 
 
 function hash_loader() {
@@ -196,6 +212,7 @@ user.auth = function()
 {
     var email = $('#auth-email').val();
     var pass = $('#auth-pass').val();
+    var rememberMe = $('#auth-remember').prop("checked");
 
     $('.alert-error').remove();
 
@@ -203,7 +220,8 @@ user.auth = function()
         '/auth/login',
         {
             'email' : email,
-            'pass': pass
+            'pass': pass,
+            'rememberMe': rememberMe
         }, function(data){
 
             if (data.status == 'ok'){

@@ -3,9 +3,11 @@
 class logoutController extends Zend_Controller_Action
 {
 
-	public function indexAction()
+	public function init()
 	{
 		Zend_Auth::getInstance()->clearIdentity();
-		$this->redirect('/'); // back to login page
+		Zend_Session::forgetMe();
+		Zend_Session::destroy(true);
+		$this->redirect('/');
 	}
 }

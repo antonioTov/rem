@@ -10,7 +10,7 @@
 		?>
 		<div class="adv-item">
 			<h3 class="adv-title">
-				<a href="<?=$this->url(array('controller' => 'task', 'action' => 'view', 'id' => $project->id ), 'route')?>"><?php echo $this->escape( $project->name ) ?></a>
+				<a href="<?=$this->url(array('controller' => 'task', 'action' => 'view', 'id' => $project->id ), 'task')?>"><?php echo $this->escape( $project->name ) ?></a>
 			</h3>
 			<div class="adv-city">
 				<?php echo $this->escape( $this->cities[$project->city_id]['name'] )  ?>

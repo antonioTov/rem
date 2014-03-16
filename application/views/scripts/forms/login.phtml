@@ -7,7 +7,13 @@
 			<div class="f-row">
 				<?php echo $this->element->pass ?>
 			</div>
-			<div class="f-row mt-20">
+			<div class="checkbox">
+				<label class="checkbox-custom">
+					<input type="checkbox" name="rememberMe" value="0" id="auth-remember" >
+					<i class="fa fa-square-o"></i> Запомнить
+				</label>
+			</div>
+			<div class="f-row">
 				<a class="class-link" href="#">Забыли пароль?</a>
 				<input type="submit" name="submit" id="auth-submit" value="Войти" class="btn-r">
 			</div>

@@ -7,7 +7,6 @@ class ProfileController extends Zend_Controller_Action
 	 * profile ID
 	 * @var
 	 */
-
 	private $_pid;
 	/**
 	 * user ID

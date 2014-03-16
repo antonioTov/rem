@@ -46,7 +46,8 @@ class Application_Form_Login extends Zend_Form
 //				array('HtmlTag', array('tag' => 'div', 'class' => 'f-row'))
 //			));
 
-		//-----------------------------------------------------------------//
+
+	   //-----------------------------------------------------------------//
 	   	// поле password
 	   $pass = new Zend_Form_Element_Password('pass');
 	   $pass->setLabel('Пароль')
@@ -56,7 +57,6 @@ class Application_Form_Login extends Zend_Form
 		   ->setAttrib('placeholder', 'введите пароль')
 		   ->addFilter('StripTags')
 		   ->addFilter('StringTrim')
-		   ->setOrder(2)
 		   ->addValidators(array(
 			   array('NotEmpty', true, array('messages' => array(
 				   'isEmpty' => 'Пароль не может быть пустым!',
@@ -77,7 +77,7 @@ class Application_Form_Login extends Zend_Form
 				array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class' =>'button')),
 			));
 
-		$this->addElements( array( $email, $pass, $submit ) );
+		$this->addElements( array( $email, $pass,  $submit ) );
 
     }
 

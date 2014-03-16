@@ -39,28 +39,38 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			)
 		);
 
-		$routeTaskList = new Zend_Controller_Router_Route(
-			'/task/:page',
+		$routeTask = new Zend_Controller_Router_Route(
+			'/task/:id/:action',
 			array(
 				'controller' => 'task',
-				'action'		=> 'list',
-				'page'		=> 1
+				'action'		=> 'view',
+				'id'		  	=> 1
 			)
 		);
 
+		$routeTaskList = new Zend_Controller_Router_Route_Regex(
+			'/task/([-a-z]+)',
+			array(
+				'controller' => 'task',
+				'action'		=> 'list'
+			),
+			array(1=>'page'),
+			'?page=%s'
+		);
+
 		$routeProfile = new Zend_Controller_Router_Route(
-			'profile',
+			'profile/:action',
 			array(
 				'controller' 	=> 'profile',
 				'action'     	=> 'view',
-				'id'         	=> 0,
-				'news'		=> 'Article_1'
+				'id'         	=> 0
 			)
 			//array('id' => '\d+') // Makes sure :id is an int
 		);
 
 		$router = Zend_Controller_Front::getInstance()->getRouter();
 		$router->addRoute('route', $routeDefault);
+		$router->addRoute('task', $routeTask);
 		$router->addRoute('task_list', $routeTaskList);
 		$router->addRoute('profile', $routeProfile);
 	}

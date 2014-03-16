@@ -25,6 +25,11 @@ class AuthController extends Zend_Controller_Action
 	const ODNOKLASSNIKI_SCOPE 		= 'VALUABLE_ACCESS';
 	const ODNOKLASSNIKI_REDIRECT	= '/auth/od';
 
+	/**
+	 * ¬рем€ хранени€ авторизации
+	 * 3 мес€ца
+	 */
+	const REMEMBER_TIME = 7776000;
 
 	private $auth;
 
@@ -35,6 +40,8 @@ class AuthController extends Zend_Controller_Action
 	private $usersModel;
 
 	private $tableUsers;
+
+	private $rememberMe = false;
 
 	/**
 	 * @var
@@ -88,6 +95,7 @@ class AuthController extends Zend_Controller_Action
 			$formData = $this->getRequest()->getPost();
 			if ( $form->isValid( $formData ) )
 			{
+				$this->rememberMe = $formData['rememberMe'];
 				$this->authAdapter->setIdentity( $form->email->getValue() );
 				$this->authAdapter->setCredential( $form->pass->getValue() );
 				$result = $this->auth->authenticate( $this->authAdapter );
@@ -135,6 +143,9 @@ class AuthController extends Zend_Controller_Action
 	 */
 	private function _autorize()
 	{
+		if($this->rememberMe) {
+			Zend_Session::rememberMe($this::REMEMBER_TIME);
+		}
 		$storage = $this->auth->getStorage();
 		$storage_data = $this->authAdapter->getResultRowObject(
 			null,
